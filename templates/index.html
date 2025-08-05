@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Market Prices</title>
+  <meta charset="UTF-8">
+  <script>
+    async function loadPrices() {
+      const response = await fetch('/prices');
+      const data = await response.json();
+      const table = document.getElementById("price-table");
+      table.innerHTML = "<tr><th>Symbol</th><th>Bid</th><th>Ask</th><th>Last Update</th></tr>";
+
+      data.forEach(row => {
+        table.innerHTML += `<tr>
+          <td>${row.symbol}</td>
+          <td>${row.bid.toFixed(5)}</td>
+          <td>${row.ask.toFixed(5)}</td>
+          <td>${row.updated_at}</td>
+        </tr>`;
+      });
+    }
+
+    setInterval(loadPrices, 3000); // Actualiza cada 3s
+    window.onload = loadPrices;
+  </script>
+</head>
+<body>
+  <h2>Live Forex/Crypto Prices</h2>
+  <table border="1" id="price-table"></table>
+</body>
+</html>
+
+
